@@ -4,6 +4,7 @@ from tensorflow.keras.datasets import imdb;
 from tensorflow.keras import models
 from tensorflow.keras import layers
 
+
 def createModel():
   model = models.Sequential()
   model.add(layers.Dense(16, activation='relu', input_shape=(10000,)))
