@@ -59,10 +59,10 @@ def createModel():
   return model
 
 def train():
-  train_flow, val_flow = load_data()
+  train_generator, val_generator = load_data()
   model = createModel()
   model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
-  history = model.fit_generator(train_flow, steps_per_epoch=60, epochs=100, validation_data=val_flow, validation_steps=30)
+  history = model.fit_generator(train_generator, steps_per_epoch=100, epochs=100, validation_data=val_generator, validation_steps=50)
   model.save('c_vs_d_small.h5')
 
   print(history.history.keys())
@@ -168,10 +168,10 @@ if __name__ == '__main__':
   print('test dogs count:', len(os.listdir(c_vs_d_dataset + '/test/dogs')))
 
   # 训练
-  # train()
+  train()
 
   # showHistory()
-  showHistory2()
+  # showHistory2()
 
   # 数据增强
   # showDataEnhance()

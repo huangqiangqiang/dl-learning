@@ -52,7 +52,7 @@ def train():
 
   results = model.evaluate(test_images, test_labels)
   print(results)
-
+# docker run -it --name tensorflow-gpu -v $(pwd)/mnist:/app hqqsk8/tensorflow:2.4.1-gpu-jupyter bash
 if __name__ == '__main__':
   print(tf.__version__)
 

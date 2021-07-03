@@ -1,6 +1,4 @@
 from scipy.ndimage.measurements import label
-from cats_vd_dogs.train import createModel
-import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.applications import VGG16
@@ -38,16 +36,19 @@ def extract_features(directory, sample_count):
   for inputs_batch, labels_batch in generater:
     features_batch = conv_base.predict(inputs_batch)
     features[i * batch_size:(i + 1) * batch_size] = features_batch
-    labels[i * labels_batch:(i + 1) * labels_batch] = labels_batch
+    labels[i * batch_size:(i + 1) * batch_size] = labels_batch
     i += 1
-    # if i * batch_size >= sample_count:
-    #   break
+    if i * batch_size >= sample_count:
+      break
   return features, labels
 
 def train():
+  print('================11111111111111122222')
   train_features, train_labels = extract_features(train_dir, 2000)
-  val_features, val_labels = extract_features(val_dir, 2000)
-  # test_features, test_labels = extract_features(test_dir, 2000)
+  print('================22222222222222222222')
+  val_features, val_labels = extract_features(val_dir, 1000)
+  print('================33333333333333333333333')
+  # test_features, test_labels = extract_features(test_dir, 1000)
 
   # 展开
   train_features = np.reshape(train_features, (2000, 4 * 4 * 512))
@@ -66,7 +67,10 @@ def train():
   loss = history.history['loss']
   val_acc = history.history['val_acc']
   val_loss = history.history['val_loss']
-  epochs = (1, 31)
+  print('====================================')
+  print(acc)
+  print(val_acc)
+  epochs = range(1, 31)
 
   plt.plot(epochs, acc, 'bo', label='train acc')
   plt.plot(epochs, val_acc, 'b', label='validation acc')
