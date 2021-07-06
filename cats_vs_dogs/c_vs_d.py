@@ -5,11 +5,17 @@ from tensorflow.keras.layers import Dense, Conv2D, Dropout, MaxPooling2D
 from tensorflow.keras.preprocessing import image
 
 class CatDogClassifier:
+  """猫狗分类器
+  """
 
   def load_data(self, train_directory):
     train_datagen = image.ImageDataGenerator(rescale=1./255)
     val_datagen = image.ImageDataGenerator(rescale=1./255)
-    return train_datagen, val_datagen
+
+    train_generator = train_datagen.flow_from_directory(train_directory + '/train', target_size=(150, 150), batch_size=32)
+    val_generator = val_datagen.flow_from_directory(train_directory + '/val', target_size=(150, 150), batch_size=32)
+
+    return train_generator, val_generator
 
 
   def createModel(self):
@@ -37,6 +43,10 @@ class CatDogClassifier:
 
     model = self.createModel()
     model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
+    self.history = model.fit_generator(train_generator, epochs=30, validation_data=val_generator)
+
+  def showHistory(self):
+    print(1)
 
   def predict(self, predict_image_path):
     """预测，根据图片地址预测类别.
