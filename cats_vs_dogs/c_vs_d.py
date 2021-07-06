@@ -30,6 +30,8 @@ class CatDogClassifier:
     model.add(MaxPooling2D(pool_size=(2,2)))
     model.add(Dense(512, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
+
+    model.summery()
     return model
 
   def train(self, train_directory):
